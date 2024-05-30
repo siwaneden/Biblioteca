@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
 from .models import Livro
 from .forms import LivroForm
 
@@ -16,16 +15,3 @@ def adicionar_livro(request):
     else:
         form = LivroForm()
     return render(request, 'catalogo/adicionar_livro.html', {'form': form})
-
-def livro_detalhe(request, id):
-    try:
-        livro = Livro.objects.get(id=id)
-        return JsonResponse({
-            'id': livro.id,
-            'titulo': livro.titulo,
-            'autor': livro.autor,
-            'isbn': livro.isbn,
-            'resumo': livro.resumo
-        })
-    except Livro.DoesNotExist:
-        return JsonResponse({'error': 'Livro não encontrado'}, status=404)
